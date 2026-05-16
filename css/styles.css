@@ -16,6 +16,78 @@
   color: transparent;
 }
 
+/* Section background variant (moved from inline styles) */
+.section-bg-alt {
+  background: var(--bg2);
+}
+
+/* Button full-width variant (moved from inline styles) */
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Section/box position variant (moved from inline styles) */
+.position-relative {
+  position: relative;
+}
+
+/* ═══ KEYWORDS — long-tail SEO content blocks ═══ */
+.keywords-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.keyword-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r2, 20px);
+  padding: 28px 24px;
+  text-align: center;
+  transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.keyword-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.34, 1.56, .64, 1), border-color 0.3s ease, box-shadow 0.3s ease; }
+.keyword-card:nth-child(2) { transition-delay: 0.06s; }
+.keyword-card:nth-child(3) { transition-delay: 0.12s; }
+.kw-flag { font-size: 2rem; margin-bottom: 10px; display: block; }
+.kw-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  background: var(--grad2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.kw-query {
+  font-size: .87rem;
+  color: var(--text3);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.kw-desc {
+  font-size: .82rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+@media (max-width: 768px) {
+  .keywords-grid { grid-template-columns: 1fr; gap: 12px; }
+}
+
+/* Font display: optional applied to bold weights to reduce layout shift on slow connections */
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: optional;
+}
+
 /* Scroll-driven animation support */
 @supports (animation-timeline: scroll()) {
   .hero h1 {

@@ -27,7 +27,8 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style" crossorigin onload="this.rel='stylesheet'" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" />
 
   <style>
     /* ═══════════════════════════════════════════════════
@@ -927,7 +928,7 @@
   </section>
 
   <!-- ═══ HOW IT WORKS ═══ -->
-  <section id="how" style="background: var(--bg2);">
+  <section id="how" class="section-bg-alt">
     <div class="container">
       <div class="section-head fade-in-up">
         <span class="section-label" data-i18n="howLabel">How it Works</span>
@@ -973,7 +974,7 @@
             <li class="missing" data-i18n="freeF4"></li>
             <li class="missing" data-i18n="freeF5"> </li> -->
           </ul>
-          <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-secondary" style="width:100%;justify-content:center;" target="_blank" rel="noopener noreferrer" data-i18n="freeCta">Get Started</a>
+           <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-secondary btn-full" target="_blank" rel="noopener noreferrer" data-i18n="freeCta">Get Started</a>
         </div>
         <div class="pricing-card popular">
           <div class="pricing-name" data-i18n="premName">Premium</div>
@@ -985,14 +986,14 @@
             <li data-i18n="premF4">Premium priority alerts</li>
             <li data-i18n="premF5">Unlimited listings view</li> -->
           </ul>
-          <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-primary" style="width:100%;justify-content:center;" target="_blank" rel="noopener noreferrer" data-i18n="premCta">Go Premium</a>
+           <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-primary btn-full" target="_blank" rel="noopener noreferrer" data-i18n="premCta">Go Premium</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ═══ COUNTRIES ═══ -->
-  <section id="countries" style="background: var(--bg2);">
+  <section id="countries" class="section-bg-alt">
     <div class="container">
       <div class="section-head fade-in-up">
         <span class="section-label" data-i18n="countriesLabel">Coverage</span>
@@ -1014,6 +1015,37 @@
           <span class="country-flag">🇷🇸</span>
           <div class="country-name" data-i18n="c3Name">Serbia</div>
           <div class="country-desc" data-i18n="c3Desc">Belgrade, Novi Sad, Niš — affordable properties with great potential.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ KEYWORDS — long-tail SEO ═══ -->
+  <section id="keywords">
+    <div class="container">
+      <div class="section-head fade-in-up">
+        <span class="section-label">Popular Searches</span>
+        <h2 class="section-title">Find What You're Looking For</h2>
+        <p class="section-sub">Browse listings across top cities — apartments, houses, and commercial properties.</p>
+      </div>
+      <div class="keywords-grid">
+        <div class="keyword-card">
+          <span class="kw-flag">🇧🇬</span>
+          <div class="kw-heading">Apartments for Sale in Sofia, Bulgaria</div>
+          <div class="kw-query">Bulgaria · Sofia</div>
+          <div class="kw-desc">Browse a wide selection of apartments for sale in Sofia — from compact studios to modern family homes. Set your price range and get fresh listings daily.</div>
+        </div>
+        <div class="keyword-card">
+          <span class="kw-flag">🇷🇴</span>
+          <div class="kw-heading">Cheap Houses for Sale in Bucharest, Romania</div>
+          <div class="kw-query">Romania · Bucharest</div>
+          <div class="kw-desc">Discover affordable houses in Bucharest with EstateBot. Smart filters let you compare prices per m² across every neighborhood.</div>
+        </div>
+        <div class="keyword-card">
+          <span class="kw-flag">🇷🇸</span>
+          <div class="kw-heading">Commercial Real Estate in Belgrade, Serbia</div>
+          <div class="kw-query">Serbia · Belgrade</div>
+          <div class="kw-desc">Looking for commercial property in Belgrade? EstateBot surfaces offices, shops, and mixed-use spaces as soon as they hit the market.</div>
         </div>
       </div>
     </div>
@@ -1070,7 +1102,7 @@
   <!-- ═══ CTA ═══ -->
   <section class="cta-section">
     <div class="cta-glow"></div>
-    <div class="container" style="position:relative;">
+      <div class="container position-relative">
       <div class="fade-in-up">
         <h2 class="cta-title" data-i18n="ctaTitle">Ready to Find Your Dream Home?</h2>
         <p class="cta-desc" data-i18n="ctaDesc">Join thousands of users who found their perfect property with EstateBot.</p>
