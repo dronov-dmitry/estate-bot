@@ -4,6 +4,9 @@
   var SUPPORTED = ['en', 'ru', 'de', 'fr', 'es', 'bg', 'hu', 'sr'];
 
   function detectLang() {
+    var params = new URLSearchParams(window.location.search);
+    var urlLang = params.get('lang');
+    if (urlLang && SUPPORTED.includes(urlLang)) return urlLang;
     var ls = localStorage.getItem('estatebot_lang_set');
     if (ls) {
       var s = localStorage.getItem('estatebot_lang');
@@ -23,6 +26,11 @@
   }
   function setLang(lang, explicit) {
     if (!SUPPORTED.includes(lang)) lang = 'en';
+    if (explicit) {
+      var url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      window.history.replaceState(null, '', url);
+    }
     document.documentElement.setAttribute('data-lang', lang);
     if (explicit) {
       localStorage.setItem('estatebot_lang', lang);
