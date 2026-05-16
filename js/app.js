@@ -164,8 +164,10 @@
   function hideLoader() {
     var loader = document.getElementById('loader');
     if (!loader) return;
-    window.addEventListener('load', function(){ setTimeout(function(){ loader.classList.add('hidden'); }, 300); }, { once: true });
-    setTimeout(function(){ loader.classList.add('hidden'); }, 2000);
+    function doHide() { loader.classList.add('hidden'); }
+    window.addEventListener('load', function(){ setTimeout(doHide, 200); }, { once: true });
+    // Aggressive fallback — never block on mobile regardless of external resources
+    setTimeout(doHide, 800);
   }
 
   // Service Worker
@@ -191,12 +193,15 @@
 
   // Init
   document.addEventListener('DOMContentLoaded', function(){
-    applySettings();
-    var lang = detectLang();
-    setLang(lang, false);
+    // hideLoader first — must run even if other init steps throw
     hideLoader();
-    setupFaq();
-    setupScrollAnimations();
-    registerSW();
+    try { applySettings(); } catch(e) { console.warn('applySettings error', e); }
+    try {
+      var lang = detectLang();
+      setLang(lang, false);
+    } catch(e) { console.warn('i18n error', e); }
+    try { setupFaq(); } catch(e) {}
+    try { setupScrollAnimations(); } catch(e) {}
+    try { registerSW(); } catch(e) {}
   });
 })();

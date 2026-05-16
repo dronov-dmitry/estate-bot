@@ -128,8 +128,13 @@
       background: var(--bg);
       display: flex; align-items: center; justify-content: center;
       transition: opacity .5s ease, visibility .5s ease;
+      /* CSS fallback: auto-hide after 1.5s even if JS is blocked */
+      animation: loaderAutoHide 0s 1.5s forwards;
     }
-    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    @keyframes loaderAutoHide {
+      to { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; animation: none; }
     .loader-logo {
       font-size: 2rem; font-weight: 900;
       background: var(--grad3); -webkit-background-clip: text; background-clip: text;
