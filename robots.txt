@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://europe-estate-bot.github.io/sitemap.xml
+Sitemap: https://dronov-dmitry.github.io/estate-bot/sitemap.xml
