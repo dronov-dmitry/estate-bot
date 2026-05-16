@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>EstateBot — AI Real Estate Search in Bulgaria, Romania & Serbia</title>
+  <meta name="description" content="Smart Telegram bot for real estate search across Bulgaria, Romania & Serbia. Set filters for price, area & city. Get fresh listings daily. Free to start." />
+  <meta name="theme-color" content="#0a0e1a" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       RESET & VARIABLES
+       ═══════════════════════════════════════════════════ */
+    :root {
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --bg: #05080e;
+      --bg2: #0a0e1a;
+      --bg3: #0f1525;
+      --surface: rgba(255,255,255,.035);
+      --surface2: rgba(255,255,255,.06);
+      --surface3: rgba(255,255,255,.09);
+      --border: rgba(255,255,255,.07);
+      --border2: rgba(255,255,255,.12);
+      --border3: rgba(255,255,255,.18);
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --accent: #6366f1;
+      --accent2: #818cf8;
+      --accent3: #a5b4fc;
+      --cyan: #06b6d4;
+      --emerald: #10b981;
+      --grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+      --grad2: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      --grad3: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #a78bfa 60%, #06b6d4 100%);
+      --glass: rgba(99,102,241,.08);
+      --glass-b: rgba(99,102,241,.2);
+      --r: 12px;
+      --r2: 20px;
+      --rf: 9999px;
+      --shadow: 0 8px 40px rgba(0,0,0,.5);
+      --shadow2: 0 16px 64px rgba(0,0,0,.55);
+      --glow: 0 0 40px rgba(99,102,241,.15);
+      --radius-sm: 10px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc; --bg2: #f1f5f9; --bg3: #e2e8f0;
+        --surface: rgba(15,23,42,.03); --surface2: rgba(15,23,42,.06);
+        --surface3: rgba(15,23,42,.1);
+        --border: rgba(15,23,42,.07); --border2: rgba(15,23,42,.12);
+        --border3: rgba(15,23,42,.18);
+        --text: #0f172a; --text2: #475569; --text3: #64748b;
+        --glass: rgba(99,102,241,.06); --glass-b: rgba(99,102,241,.14);
+        --shadow: 0 8px 40px rgba(0,0,0,.08);
+        --shadow2: 0 16px 64px rgba(0,0,0,.1);
+        --glow: 0 0 40px rgba(99,102,241,.08);
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font); background: var(--bg); color: var(--text);
+      line-height: 1.6; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: var(--font); cursor: pointer; }
+
+    /* ═══════════════════════════════════════════════════
+       LOADER
+       ═══════════════════════════════════════════════════ */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-logo {
+      font-size: 2rem; font-weight: 900;
+      background: var(--grad3); -webkit-background-clip: text; background-clip: text;
+      color: transparent; animation: pulseLogo 1.2s ease-in-out infinite;
+    }
+    @keyframes pulseLogo { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.95)} }
+
+    /* ═══════════════════════════════════════════════════
+       BACKGROUND
+       ═══════════════════════════════════════════════════ */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 5%, rgba(99,102,241,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 80% 90%, rgba(139,92,246,.12) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(6,182,212,.04) 0%, transparent 60%);
+    }
+    .bg-noise {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      opacity: .02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       NAV
+       ═══════════════════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(5,8,14,.75);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 20px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 1.1rem; letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--grad); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .nav-logo-text {
+      background: var(--grad3); -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    .nav-center { display: flex; align-items: center; gap: 4px; }
+    .nav-center a {
+      color: var(--text2); font-size: .85rem; font-weight: 500;
+      padding: 6px 14px; border-radius: var(--rf);
+      transition: color .2s, background .2s;
+    }
+    .nav-center a:hover { color: var(--text); background: var(--surface); }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-cta {
+      background: var(--grad); color: #fff; border: none;
+      border-radius: var(--rf); padding: 8px 20px;
+      font-size: .82rem; font-weight: 700; font-family: var(--font);
+      cursor: pointer; text-decoration: none;
+      transition: transform .2s, box-shadow .2s; white-space: nowrap;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: var(--glow); }
+
+    /* Lang */
+    .lang-wrap { position: relative; }
+    .lang-btn {
+      background: var(--surface); color: var(--text2); border: 1px solid var(--border);
+      padding: 5px 11px; border-radius: var(--rf); font-family: var(--font);
+      font-size: .75rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 4px;
+      transition: background .2s, border-color .2s;
+    }
+    .lang-btn:hover { background: var(--surface2); border-color: var(--border2); }
+    .lang-dd {
+      position: absolute; top: calc(100% + 6px); right: 0; min-width: 150px;
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--r); overflow: hidden;
+      box-shadow: var(--shadow2);
+      opacity: 0; transform: translateY(-8px) scale(.96);
+      pointer-events: none; transition: opacity .2s, transform .2s;
+    }
+    .lang-dd.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .lang-dd button {
+      display: block; width: 100%; text-align: left;
+      background: none; border: none; color: var(--text2);
+      font-family: var(--font); font-size: .82rem;
+      padding: 9px 14px; cursor: pointer;
+      transition: color .15s, background .15s;
+    }
+    .lang-dd button:hover { color: var(--text); background: var(--surface); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+
+    @media (max-width: 768px) {
+      .nav-center { display: none; }
+      .hamburger { display: flex; }
+      .nav-center.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--bg2); border-bottom: 1px solid var(--border);
+        padding: 14px; gap: 2px;
+      }
+      .nav-center.open a { padding: 10px 14px; }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 20px 60px; position: relative;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--glass); border: 1px solid var(--glass-b);
+      color: var(--accent3); padding: 5px 14px; border-radius: var(--rf);
+      font-size: .76rem; font-weight: 600; margin-bottom: 24px;
+    }
+    .hero-tag .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 900; line-height: 1.05; letter-spacing: -.04em;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: var(--grad3); -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      font-size: 1.05rem; color: var(--text2);
+      max-width: 480px; line-height: 1.75; margin-bottom: 32px;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: none; border-radius: var(--rf); padding: 15px 34px;
+      font-size: .95rem; font-weight: 700; font-family: var(--font);
+      cursor: pointer; text-decoration: none;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--grad); color: #fff;
+      box-shadow: 0 0 30px rgba(99,102,241,.25);
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 0 50px rgba(99,102,241,.35); }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-secondary {
+      background: var(--surface2); border: 1px solid var(--border2); color: var(--text);
+    }
+    .btn-secondary:hover { background: var(--surface3); transform: translateY(-2px); }
+    .hero-trust {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px;
+    }
+    .hero-trust-badge {
+      display: flex; align-items: center; gap: 5px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text2); padding: 6px 12px; border-radius: var(--rf);
+      font-size: .73rem; font-weight: 500;
+    }
+
+    /* ── Phone Mockup ── */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      position: relative; perspective: 1000px;
+    }
+    .phone {
+      width: 100%; max-width: 340px;
+      background: linear-gradient(180deg, #141a2e 0%, #1a2140 100%);
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 20px 80px rgba(0,0,0,.6),
+        0 0 60px rgba(99,102,241,.1),
+        inset 0 0 0 1px rgba(255,255,255,.08);
+      transform: perspective(1000px) rotateY(-6deg) rotateX(3deg);
+      transition: transform .6s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+    }
+    .phone:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+    .phone-notch {
+      width: 120px; height: 28px;
+      background: #0d0d0d; border-radius: 0 0 18px 18px;
+      margin: 0 auto 8px;
+    }
+    .phone-screen {
+      background: #0f1322;
+      border-radius: 34px; overflow: hidden;
+    }
+    .phone-status {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px 6px;
+      font-size: .65rem; color: rgba(255,255,255,.6); font-weight: 600;
+    }
+    .phone-chat {
+      padding: 8px 14px 16px;
+      display: flex; flex-direction: column; gap: 8px;
+      min-height: 340px;
+    }
+    .chat-msg {
+      max-width: 82%; padding: 10px 14px;
+      border-radius: 16px;
+      font-size: .75rem; line-height: 1.5;
+      animation: fadeSlideUp .4s ease both;
+    }
+    .chat-msg.bot {
+      align-self: flex-start;
+      background: rgba(255,255,255,.07);
+      border-bottom-left-radius: 4px;
+      color: rgba(255,255,255,.85);
+    }
+    .chat-msg.user {
+      align-self: flex-end;
+      background: var(--grad);
+      border-bottom-right-radius: 4px;
+      color: #fff;
+    }
+    .chat-msg.card {
+      align-self: flex-start;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 12px;
+      max-width: 90%;
+    }
+    .chat-msg.card .card-row {
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .chat-msg.card .card-img {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #6366f1, #06b6d4);
+      border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .chat-msg.card .card-info { flex: 1; min-width: 0; }
+    .chat-msg.card .card-price { font-weight: 700; font-size: .85rem; color: #fff; }
+    .chat-msg.card .card-city { color: var(--text3); font-size: .7rem; margin-top: 1px; }
+    .chat-msg.card .card-detail { color: var(--text3); font-size: .65rem; margin-top: 4px; }
+    .chat-msg:nth-child(1) { animation-delay: .2s; }
+    .chat-msg:nth-child(2) { animation-delay: .6s; }
+    .chat-msg:nth-child(3) { animation-delay: 1s; }
+    .chat-msg:nth-child(4) { animation-delay: 1.4s; }
+    .chat-msg:nth-child(5) { animation-delay: 1.8s; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SECTIONS COMMON
+       ═══════════════════════════════════════════════════ */
+    section { padding: 96px 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-head {
+      text-align: center; margin-bottom: 56px;
+      opacity: 0; transform: translateY(24px);
+    }
+    .section-head.visible { opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .6s ease; }
+    .section-label {
+      display: inline-block;
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: var(--accent2); margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900; line-height: 1.12; letter-spacing: -.03em;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--text2);
+      max-width: 560px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       STATS
+       ═══════════════════════════════════════════════════ */
+    .stats {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 20px;
+    }
+    .stats-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 900;
+      letter-spacing: -.03em;
+      background: var(--grad2); -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    .stat-label { font-size: .82rem; color: var(--text3); margin-top: 4px; font-weight: 500; }
+
+    /* ═══════════════════════════════════════════════════
+       FEATURES
+       ═══════════════════════════════════════════════════ */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 30px 26px;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1),
+                  box-shadow .35s ease, border-color .35s ease;
+      opacity: 0; transform: translateY(30px);
+    }
+    .feature-card.visible { opacity: 1; transform: translateY(0); transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease, border-color .35s ease; }
+    .feature-card:hover { transform: translateY(-6px); border-color: var(--glass-b); box-shadow: var(--glow); }
+    .feature-card:nth-child(2) { transition-delay: .06s; }
+    .feature-card:nth-child(3) { transition-delay: .12s; }
+    .feature-card:nth-child(4) { transition-delay: .08s; }
+    .feature-card:nth-child(5) { transition-delay: .14s; }
+    .feature-card:nth-child(6) { transition-delay: .2s; }
+    .fc-icon {
+      width: 48px; height: 48px;
+      background: var(--grad); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 18px;
+      box-shadow: 0 4px 20px rgba(99,102,241,.25);
+    }
+    .fc-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .fc-desc { font-size: .87rem; color: var(--text2); line-height: 1.7; }
+
+    /* ═══════════════════════════════════════════════════
+       HOW IT WORKS
+       ═══════════════════════════════════════════════════ */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; position: relative;
+    }
+    .steps-grid::before {
+      content: ''; position: absolute; top: 40px;
+      left: calc(16.67% + 24px); right: calc(16.67% + 24px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--border2));
+      opacity: .3;
+    }
+    .step-card {
+      text-align: center; padding: 0 20px;
+      opacity: 0; transform: translateY(20px) scale(.97);
+    }
+    .step-card.visible { opacity: 1; transform: translateY(0) scale(1); transition: opacity .6s ease, transform .6s cubic-bezier(.34,1.56,.64,1); }
+    .step-card:nth-child(2) { transition-delay: .15s; }
+    .step-card:nth-child(3) { transition-delay: .3s; }
+    .step-num {
+      width: 72px; height: 72px; margin: 0 auto 20px;
+      background: var(--grad); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900; color: #fff;
+      box-shadow: 0 0 30px rgba(99,102,241,.25);
+      position: relative; z-index: 1;
+      transition: transform .3s;
+    }
+    .step-card:hover .step-num { transform: scale(1.1); }
+    .step-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .step-desc { font-size: .87rem; color: var(--text2); line-height: 1.7; max-width: 280px; margin: 0 auto; }
+
+    /* ═══════════════════════════════════════════════════
+       PRICING
+       ═══════════════════════════════════════════════════ */
+    .pricing-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; max-width: 720px; margin: 0 auto;
+    }
+    .pricing-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 32px 28px;
+      position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(20px);
+    }
+    .pricing-card.visible { opacity: 1; transform: translateY(0); transition: opacity .5s ease, transform .5s ease; }
+    .pricing-card.popular {
+      border-color: var(--glass-b);
+      background: linear-gradient(135deg, var(--glass), var(--surface));
+    }
+    .pricing-card.popular::before {
+      content: 'POPULAR'; position: absolute; top: 16px; right: -28px;
+      background: var(--grad); color: #fff;
+      font-size: .6rem; font-weight: 800; letter-spacing: .08em;
+      padding: 4px 36px; transform: rotate(45deg);
+    }
+    .pricing-name { font-size: 1rem; color: var(--text2); font-weight: 600; margin-bottom: 4px; }
+    .pricing-price { font-size: 2rem; font-weight: 900; letter-spacing: -.03em; margin-bottom: 16px; }
+    .pricing-price span { font-size: .9rem; font-weight: 500; color: var(--text3); }
+    .pricing-price [data-premium-price] { font-size: 2rem; font-weight: 900; letter-spacing: -.03em; margin-bottom: 16px; color: var(--text);}
+    .pricing-features { list-style: none; margin-bottom: 24px; }
+    .pricing-features li {
+      padding: 7px 0; font-size: .87rem; color: var(--text2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pricing-features li::before { content: '✓'; color: var(--emerald); font-weight: 700; }
+    .pricing-features li.missing::before { content: '—'; color: var(--text3); }
+    .pricing-features li.missing { color: var(--text3); }
+
+    /* ═══════════════════════════════════════════════════
+       COUNTRIES
+       ═══════════════════════════════════════════════════ */
+    .countries-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .country-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 28px 24px; text-align: center;
+      transition: transform .3s ease, border-color .3s ease;
+      opacity: 0; transform: translateY(20px);
+    }
+    .country-card.visible { opacity: 1; transform: translateY(0); transition: opacity .5s ease, transform .5s ease, border-color .3s ease; }
+    .country-card:hover { transform: translateY(-4px); border-color: var(--glass-b); }
+    .country-flag { font-size: 2.8rem; margin-bottom: 12px; display: block; }
+    .country-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .country-desc { font-size: .85rem; color: var(--text2); line-height: 1.6; }
+
+    /* ═══════════════════════════════════════════════════
+       FAQ
+       ═══════════════════════════════════════════════════ */
+    .faq-list { max-width: 680px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateY(10px);
+    }
+    .faq-item.visible { opacity: 1; transform: translateY(0); transition: opacity .4s ease, transform .4s ease; }
+    .faq-item:nth-child(2) { transition-delay: .06s; }
+    .faq-item:nth-child(3) { transition-delay: .12s; }
+    .faq-item:nth-child(4) { transition-delay: .18s; }
+    .faq-item:nth-child(5) { transition-delay: .24s; }
+    .faq-question {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      background: none; border: none; color: var(--text); font-family: var(--font);
+      font-size: .95rem; font-weight: 600; padding: 18px 0;
+      cursor: pointer; text-align: left; gap: 12px;
+    }
+    .faq-question .arrow {
+      flex-shrink: 0; font-size: .7rem; color: var(--text3);
+      transition: transform .3s;
+    }
+    .faq-item.open .faq-question .arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+      padding: 0;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 0 18px;
+    }
+    .faq-answer p {
+      font-size: .88rem; color: var(--text2); line-height: 1.7; margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CTA BANNER
+       ═══════════════════════════════════════════════════ */
+    .cta-section {
+      text-align: center; padding: 120px 20px; position: relative;
+      background: var(--bg2);
+    }
+    .cta-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(99,102,241,.12) 0%, transparent 70%);
+    }
+    .cta-title {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
+      letter-spacing: -.03em; margin-bottom: 16px; position: relative;
+    }
+    .cta-desc {
+      font-size: 1.05rem; color: var(--text2);
+      max-width: 480px; margin: 0 auto 36px;
+      line-height: 1.7; position: relative;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 20px; text-align: center;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    footer .copy { font-size: .82rem; color: var(--text3); }
+    footer .copy span { color: var(--text2); }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { font-size: .82rem; color: var(--text3); transition: color .2s; }
+    .footer-links a:hover { color: var(--text2); }
+
+    /* ═══════════════════════════════════════════════════
+       UTILITIES
+       ═══════════════════════════════════════════════════ */
+      .fade-in-up { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+      .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+    @supports (animation-timeline: scroll()) {
+      .hero h1 { animation: reveal 1s linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+      @keyframes reveal { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 90px 16px 50px; min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero p { max-width: 100%; }
+      .phone { max-width: 280px; transform: none; margin: 0 auto; }
+      .phone:hover { transform: none; }
+      .features-grid { grid-template-columns: 1fr; gap: 12px; }
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+      .steps-grid::before { display: none; }
+      .countries-grid { grid-template-columns: 1fr; gap: 12px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      section { padding: 64px 16px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .footer-inner { flex-direction: column; gap: 8px; }
+      .nav-cta { padding: 8px 14px; font-size: .78rem; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 48px 14px; }
+      .hero { padding: 80px 14px 40px; }
+      .hero h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+      .phone { max-width: 260px; }
+      .btn { padding: 13px 24px; font-size: .88rem; }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SCROLLBAR & SELECTION
+       ═══════════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    ::selection { background: rgba(99,102,241,.3); color: #fff; }
+  </style>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "EstateBot",
+    "applicationCategory": "RealEstateApplication",
+    "operatingSystem": "Telegram",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "description": "AI-powered Telegram bot that searches real estate listings with customizable filters for price, price per m², area, and city across Bulgaria, Romania and Serbia.",
+    "publisher": { "@type": "Organization", "name": "EstateBot" }
+  }
+  </script>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="bg-noise"></div>
+
+  <!-- Loader -->
+  <div id="loader"><div class="loader-logo">EB</div></div>
+
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <div class="nav-logo-icon">🏠</div>
+        <a href="#" class="nav-logo-text">EstateBot</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-center" id="navLinks">
+        <a href="#features" data-i18n="navFeatures">Features</a>
+        <a href="#how" data-i18n="navHow">How it Works</a>
+        <a href="#pricing" data-i18n="navPricing">Pricing</a>
+        <a href="#countries" data-i18n="navCountries">Countries</a>
+        <a href="#faq" data-i18n="navFaq">FAQ</a>
+      </div>
+      <div class="nav-right">
+        <a href="https://t.me/your_bot_username" data-bot-link class="nav-cta" target="_blank" rel="noopener noreferrer" data-i18n="navCta">Open Bot</a>
+        <div class="lang-wrap">
+          <button class="lang-btn" id="langBtn" aria-label="Language">
+            🌐 <span id="currentLang">EN</span>
+          </button>
+          <div class="lang-dd" id="langDropdown" role="listbox">
+            <button data-lang="en">🇬🇧 English</button>
+            <button data-lang="ru">🇷🇺 Русский</button>
+            <button data-lang="de">🇩🇪 Deutsch</button>
+            <button data-lang="fr">🇫🇷 Français</button>
+            <button data-lang="es">🇪🇸 Español</button>
+            <button data-lang="bg">🇧🇬 Български</button>
+            <button data-lang="hu">🇭🇺 Magyar</button>
+            <button data-lang="sr">🇷🇸 Српски</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">
+          <span class="dot"></span>
+          <span data-i18n="heroBadge">AI-Powered • Free to Start</span>
+        </div>
+        <h1 data-i18n="heroTitle">Find Your <em>Dream Home</em> <br>Without the Hassle</h1>
+        <p data-i18n="heroSub">AI-powered real estate search bot for Telegram. Set smart filters — price, area, city — and get fresh listings delivered to you daily across Bulgaria, Romania &amp; Serbia.</p>
+        <div class="hero-actions">
+          <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <span>🚀</span> <span data-i18n="heroCta">Open in Telegram</span>
+          </a>
+          <a href="#features" class="btn btn-secondary" data-i18n="heroCta2">Explore Features</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-badge">✅ <span data-i18n="badgeFree">Free to Start</span></div>
+          <div class="hero-trust-badge">🔄 <span data-i18n="badgeDaily">Fresh Daily</span></div>
+          <div class="hero-trust-badge">🌍 <span data-i18n="badgeCountries">3 Countries</span></div>
+        </div>
+      </div>
+
+      <!-- Phone Mockup -->
+      <div class="hero-visual">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span>📶 🔋</span>
+            </div>
+            <div class="phone-chat">
+              <div class="chat-msg bot">
+                🏡 <b>EstateBot</b> — I found new listings in Sofia!<br>
+                Filter: €50K–€200K, 60–120 m²
+              </div>
+              <div class="chat-msg card">
+                <div class="card-row">
+                  <div class="card-img">🏡</div>
+                  <div class="card-info">
+                    <div class="card-price">€185,000</div>
+                    <div class="card-city">Sofia, Bulgaria</div>
+                    <div class="card-detail">82 m² • 3 rooms • €2,256/m²</div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-msg card">
+                <div class="card-row">
+                  <div class="card-img">🏢</div>
+                  <div class="card-info">
+                    <div class="card-price">€125,000</div>
+                    <div class="card-city">Bucharest, Romania</div>
+                    <div class="card-detail">65 m² • 2 rooms • €1,923/m²</div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-msg card">
+                <div class="card-row">
+                  <div class="card-img">🏘️</div>
+                  <div class="card-info">
+                    <div class="card-price">€97,000</div>
+                    <div class="card-city">Belgrade, Serbia</div>
+                    <div class="card-detail">58 m² • 2 rooms • €1,672/m²</div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-msg user">Show me more like the first one 👆</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═══ -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-num" data-i18n="stat1Num">10K+</div>
+        <div class="stat-label" data-i18n="stat1Label">Listings Tracked</div>
+      </div>
+      <div>
+        <div class="stat-num" data-i18n="stat2Num">3</div>
+        <div class="stat-label" data-i18n="stat2Label">Countries</div>
+      </div>
+      <div>
+        <div class="stat-num" data-i18n="stat3Num">24/7</div>
+        <div class="stat-label" data-i18n="stat3Label">Bot Online</div>
+      </div>
+      <div>
+        <div class="stat-num" data-i18n="stat4Num">€0</div>
+        <div class="stat-label" data-i18n="stat4Label">To Start</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ═══ -->
+  <section id="features">
+    <div class="container">
+      <div class="section-head fade-in-up">
+        <span class="section-label" data-i18n="featuresLabel">Features</span>
+        <h2 class="section-title" data-i18n="featuresTitle">Why EstateBot?</h2>
+        <p class="section-sub" data-i18n="featuresSub">Everything you need to find the perfect property — all inside Telegram.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="fc-icon">🔍</div>
+          <div class="fc-title" data-i18n="f1Title">Smart Filters</div>
+          <div class="fc-desc" data-i18n="f1Desc">Filter by price, price/m², area, and city — find exactly what you need.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🔄</div>
+          <div class="fc-title" data-i18n="f2Title">Auto-Updates</div>
+          <div class="fc-desc" data-i18n="f2Desc">New matching listings pushed to you automatically every day.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">👑</div>
+          <div class="fc-title" data-i18n="f3Title">Premium Alerts</div>
+          <div class="fc-desc" data-i18n="f3Desc">Unlock unlimited listings and priority alerts with Premium.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">⏰</div>
+          <div class="fc-title" data-i18n="f4Title">24/7 Available</div>
+          <div class="fc-desc" data-i18n="f4Desc">The bot works around the clock — search whenever inspiration strikes.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">💎</div>
+          <div class="fc-title" data-i18n="f5Title">Price Transparency</div>
+          <div class="fc-desc" data-i18n="f5Desc">Clear price-per-m² comparison helps you make informed decisions.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">📡</div>
+          <div class="fc-title" data-i18n="f6Title">Real-Time Sync</div>
+          <div class="fc-desc" data-i18n="f6Desc">Regular database updates ensure you never miss a good deal.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <section id="how" style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-head fade-in-up">
+        <span class="section-label" data-i18n="howLabel">How it Works</span>
+        <h2 class="section-title" data-i18n="howTitle">Three Simple Steps</h2>
+        <p class="section-sub" data-i18n="howSub">From zero to fresh listings in under 30 seconds.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-title" data-i18n="s1Title">Launch the Bot</div>
+          <div class="step-desc" data-i18n="s1Desc">Open EstateBot in Telegram and tap <b>Start</b>.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-title" data-i18n="s2Title">Set Your Filters</div>
+          <div class="step-desc" data-i18n="s2Desc">Choose price range, price/m², area, and city.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-title" data-i18n="s3Title">Get Fresh Listings</div>
+          <div class="step-desc" data-i18n="s3Desc">Receive matching properties daily — instantly in your chat.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRICING ═══ -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head fade-in-up">
+        <span class="section-label" data-i18n="pricingLabel">Pricing</span>
+        <h2 class="section-title" data-i18n="pricingTitle">Free to Start. Premium When You Need More.</h2>
+        <p class="section-sub" data-i18n="pricingSub">No credit card required. Upgrade only when you outgrow the free tier.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name" data-i18n="freeName">Free</div>
+          <div class="pricing-price">€0 <span data-i18n="freePeriod">/ forever</span></div>
+          <ul class="pricing-features">
+            <li data-i18n="freeF1">1 property listing</li>
+            <li data-i18n="freeF2">Basic search filters</li>
+            <li data-i18n="freeF3">Daily updates</li>
+            <li class="missing" data-i18n="freeF4">Premium priority alerts</li>
+            <li class="missing" data-i18n="freeF5">Unlimited listings view</li>
+          </ul>
+          <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-secondary" style="width:100%;justify-content:center;" target="_blank" rel="noopener noreferrer" data-i18n="freeCta">Get Started</a>
+        </div>
+        <div class="pricing-card popular">
+          <div class="pricing-name" data-i18n="premName">Premium</div>
+          <div class="pricing-price"><span data-premium-price>€5</span> <span data-i18n="premPeriod">/ month</span></div>
+          <ul class="pricing-features">
+            <li data-i18n="premF1">Up to 3 property listings</li>
+            <li data-i18n="premF2">Advanced search filters</li>
+            <li data-i18n="premF3">Priority daily updates</li>
+            <li data-i18n="premF4">Premium priority alerts</li>
+            <li data-i18n="premF5">Unlimited listings view</li>
+          </ul>
+          <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-primary" style="width:100%;justify-content:center;" target="_blank" rel="noopener noreferrer" data-i18n="premCta">Go Premium</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COUNTRIES ═══ -->
+  <section id="countries" style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-head fade-in-up">
+        <span class="section-label" data-i18n="countriesLabel">Coverage</span>
+        <h2 class="section-title" data-i18n="countriesTitle">Search Across 3 Countries</h2>
+        <p class="section-sub" data-i18n="countriesSub">Comprehensive real estate coverage in the most popular Balkan markets.</p>
+      </div>
+      <div class="countries-grid">
+        <div class="country-card">
+          <span class="country-flag">🇧🇬</span>
+          <div class="country-name" data-i18n="c1Name">Bulgaria</div>
+          <div class="country-desc" data-i18n="c1Desc">Sofia, Varna, Burgas — the Black Sea coast and capital city properties.</div>
+        </div>
+        <div class="country-card">
+          <span class="country-flag">🇷🇴</span>
+          <div class="country-name" data-i18n="c2Name">Romania</div>
+          <div class="country-desc" data-i18n="c2Desc">Bucharest, Cluj, Timișoara — vibrant cities with growing markets.</div>
+        </div>
+        <div class="country-card">
+          <span class="country-flag">🇷🇸</span>
+          <div class="country-name" data-i18n="c3Name">Serbia</div>
+          <div class="country-desc" data-i18n="c3Desc">Belgrade, Novi Sad, Niš — affordable properties with great potential.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-head fade-in-up">
+        <span class="section-label" data-i18n="faqLabel">FAQ</span>
+        <h2 class="section-title" data-i18n="faqTitle">Got Questions?</h2>
+        <p class="section-sub" data-i18n="faqSub">Everything you need to know about EstateBot.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="q1">How is this different from other real estate sites?</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer"><p data-i18n="a1">EstateBot lives inside Telegram — no app to download, no website to check. Set your filters once and get relevant listings pushed directly to you every day. It's like having a personal real estate assistant in your pocket.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="q2">Is it really free?</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer"><p data-i18n="a2">Yes! The free tier gives you access to all basic features: search filters, daily updates, and 1 active listing. You only need Premium when you want unlimited listings view and priority alerts.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="q3">Which countries do you cover?</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer"><p data-i18n="a3">We currently cover Bulgaria, Romania, and Serbia — three of the most popular real estate markets in the Balkans. More countries coming soon!</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="q4">How often are listings updated?</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer"><p data-i18n="a4">Our parser runs daily, and new listings that match your filters are pushed to you automatically. Premium users get priority updates throughout the day.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="q5">Can I list my own property?</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer"><p data-i18n="a5">Absolutely! Use the /advert command in the bot to create your own listing. Free users get 1 active listing, Premium users get up to 3. All listings are moderated for quality.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section">
+    <div class="cta-glow"></div>
+    <div class="container" style="position:relative;">
+      <div class="fade-in-up">
+        <h2 class="cta-title" data-i18n="ctaTitle">Ready to Find Your Dream Home?</h2>
+        <p class="cta-desc" data-i18n="ctaDesc">Join thousands of users who found their perfect property with EstateBot.</p>
+        <a href="https://t.me/your_bot_username" data-bot-link class="btn btn-primary" target="_blank" rel="noopener noreferrer" data-i18n="ctaBtn">🚀 Start Free in Telegram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="copy">
+        <span data-i18n="copyright">© 2026 EstateBot.</span> <span data-i18n="footerTagline">Your AI real estate assistant on Telegram.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://t.me/your_bot_username" data-bot-link target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="mailto:hello@estatebot.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script src="settings.js"></script>
+  <script src="js/i18n.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>
