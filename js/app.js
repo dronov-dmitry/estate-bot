@@ -130,7 +130,7 @@
 
   // Scroll animations (IntersectionObserver)
   function setupScrollAnimations() {
-    var els = document.querySelectorAll('.fade-in-up, .feature-card, .step-card, .pricing-card, .country-card, .faq-item');
+    var els = document.querySelectorAll('.fade-in-up, .feature-card, .step-card, .pricing-card, .country-card, .keyword-card, .faq-item');
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if (entry.isIntersecting) {
@@ -156,12 +156,12 @@
     navigator.serviceWorker.register('js/sw.js').catch(function(){});
   }
 
-  // Apply settings from settings.js
+  // Apply settings from settings.js (now deferred — runs after body parsed)
   function applySettings() {
     var s = typeof SETTINGS !== 'undefined' ? SETTINGS : {};
     if (s.BOT_LINK) {
       document.querySelectorAll('[data-bot-link]').forEach(function(el){
-        el.setAttribute('href', s.BOT_LINK);
+        el.href = s.BOT_LINK;
       });
     }
     if (s.PREMIUM_PRICE_EUR) {
