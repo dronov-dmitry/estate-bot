@@ -2,7 +2,7 @@ var i18n = {
   en: {
     heroBadge: "AI-Powered / Free to Start", heroTitle: "Find Your <em>Dream Home</em> <br>Without the Hassle", heroSub: "AI-powered Telegram bot for real estate search in Bulgaria, Romania and Serbia. Set smart filters — price, price per m², area, city — and get fresh property listings delivered to you daily. Apartments, houses, commercial — all in one chat.", heroCta: "Open in Telegram", heroCta2: "Explore Features",
     badgeFree: "Free to Start", badgeDaily: "Fresh Daily", badgeCountries: "3 Countries",
-    navFeatures: "Features", navHow: "How it Works", navPricing: "Pricing", navCountries: "Countries", navFaq: "FAQ", navCta: "Open Bot",
+    navFeatures: "Features", navHow: "How it Works", navPricing: "Pricing", navCountries: "Countries", navFaq: "FAQ", navFind: "Popular Searches", navFindBG: "Bulgaria", navFindRO: "Romania", navFindRS: "Serbia", navCta: "Open Bot",
     stat1Num: "10K+", stat1Label: "Listings Tracked", stat2Num: "3", stat2Label: "Countries", stat3Num: "24/7", stat3Label: "Bot Online", stat4Num: "€0", stat4Label: "To Start",
     featuresLabel: "Features", featuresTitle: "Why EstateBot?", featuresSub: "Everything you need to find the perfect property in Bulgaria, Romania or Serbia — all inside Telegram.",
     f1Title: "Smart Filters", f1Desc: "Filter real estate listings by price, price per m², property area, and city — find apartments, houses, or commercial properties that match your exact needs.",
@@ -30,13 +30,14 @@ var i18n = {
     q5: "Can I list my own property?", a5: "Absolutely! Use the /advert command inside the bot to create and manage your own property listing. Free users get 1 active listing with basic details. Premium subscribers can list up to {PREMIUM_LISTINGS_LIMIT} properties with more visibility. All listings are moderated to ensure quality and accuracy.",
     ctaTitle: "Ready to Find Your Dream Home?", ctaDesc: "Join thousands of users who found their perfect property with EstateBot.", ctaBtn: "🚀 Start Free in Telegram",
     copyright: "© 2026 EstateBot.", footerTagline: "Your AI real estate assistant on Telegram."
+, popLabel: "Popular Searches", popTitle: "Find What You're Looking For", popSub: "Browse listings across top cities — apartments, houses, and commercial properties.", popH1: "Apartments for Sale in Sofia, Bulgaria", popQ1: "Bulgaria · Sofia", popD1: "Browse apartments for sale in Sofia from studios to family homes. Set price filters, compare m² costs, and get fresh listings daily.", popH2: "Cheap Houses for Sale in Bucharest, Romania", popQ2: "Romania · Bucharest", popD2: "Find affordable houses in Bucharest with EstateBot. Smart price and area filters help you discover the best deals across every neighborhood.", popH3: "Commercial Real Estate in Belgrade, Serbia", popQ3: "Serbia · Belgrade", popD3: "Search offices, shops, and mixed-use spaces in Belgrade. EstateBot alerts you the moment new commercial property hits the market.",
   },
   ru: {
     heroBadge: "ИИ-поиск / Бесплатно", heroTitle: "Найдите <em>Дом Мечты</em> <br>Без Хлопот",
     heroSub: "Telegram-бот на ИИ для поиска недвижимости. Установите умные фильтры и получайте свежие объявления ежедневно.",
     heroCta: "Открыть в Telegram", heroCta2: "Возможности",
     badgeFree: "Бесплатно", badgeDaily: "Свежие ежедневно", badgeCountries: "3 страны",
-    navFeatures: "Возможности", navHow: "Как работает", navPricing: "Цены", navCountries: "Страны", navFaq: "Вопросы", navCta: "Открыть",
+    navFeatures: "Возможности", navHow: "Как работает", navPricing: "Цены", navCountries: "Страны", navFaq: "Вопросы", navFind: "Популярные поиски", navFindBG: "Болгария", navFindRO: "Румыния", navFindRS: "Сербия", navCta: "Открыть",
     stat1Num: "10K+", stat1Label: "Объявлений", stat2Num: "3", stat2Label: "Страны", stat3Num: "24/7", stat3Label: "Бот онлайн", stat4Num: "€0", stat4Label: "Старт",
     featuresLabel: "Возможности", featuresTitle: "Почему EstateBot?", featuresSub: "Всё необходимое для поиска недвижимости в Telegram.",
     f1Title: "Умные Фильтры", f1Desc: "Фильтруйте по цене, цене/м², площади и городу.",
@@ -64,11 +65,12 @@ var i18n = {
     q5: "Могу ли я разместить своё объявление?", a5: "Конечно! Используйте /advert. Бесплатно 1, Премиум — до 3.",
     ctaTitle: "Готовы найти дом мечты?", ctaDesc: "Присоединяйтесь к тысячам пользователей.", ctaBtn: "Начать бесплатно",
     copyright: "© 2026 EstateBot.", footerTagline: "AI ассистент недвижимости в Telegram."
+, popLabel: "Популярные поиски", popTitle: "Найдите то, что ищете", popSub: "Просматривайте объявления в крупных городах — квартиры, дома и коммерческая недвижимость.", popH1: "Квартиры в Софии, Болгария", popQ1: "Болгария · София", popD1: "Большой выбор квартир в Софии — от студий до семейных домов. Умные фильтры и ежедневные обновления.", popH2: "Дешёвые дома в Бухаресте, Румыния", popQ2: "Румыния · Бухарест", popD2: "Найдите доступные дома в Бухаресте. Сравнивайте цены за м² в каждом районе.", popH3: "Коммерческая недвижимость в Белграде, Сербия", popQ3: "Сербия · Белград", popD3: "Офисы, магазины и помещения в Белграде. EstateBot найдёт лучшие варианты.",
   },
   de: {
     heroBadge: "KI-gestützt / Kostenlos", heroTitle: "Finden Sie Ihr <em>Traumhaus</em> <br>Ohne Mühe", heroSub: "KI-gestützter Telegram-Bot für die Immobiliensuche. Setzen Sie Filter — Preis, Fläche, Stadt — und erhalten Sie täglich neue Angebote für Bulgarien, Rumänien &amp; Serbien.", heroCta: "In Telegram öffnen", heroCta2: "Funktionen",
     badgeFree: "Kostenlos Starten", badgeDaily: "Täglich Neu", badgeCountries: "3 Länder",
-    navFeatures: "Funktionen", navHow: "So funktioniert's", navPricing: "Preise", navCountries: "Länder", navFaq: "FAQ", navCta: "Bot öffnen",
+    navFeatures: "Funktionen", navHow: "So funktioniert's", navPricing: "Preise", navCountries: "Länder", navFaq: "FAQ", navFind: "Beliebte Suchen", navFindBG: "Bulgarien", navFindRO: "Rumänien", navFindRS: "Serbien", navCta: "Bot öffnen",
     stat1Num: "10K+", stat1Label: "Angebote", stat2Num: "3", stat2Label: "Länder", stat3Num: "24/7", stat3Label: "Bot Online", stat4Num: "€0", stat4Label: "Starten",
     featuresLabel: "Funktionen", featuresTitle: "Warum EstateBot?", featuresSub: "Alles was Sie brauchen, um die perfekte Immobilie zu finden — direkt in Telegram.",
     f1Title: "Intelligente Filter", f1Desc: "Filtern Sie nach Preis, Preis/m², Fläche und Stadt.",
@@ -96,11 +98,12 @@ var i18n = {
     q5: "Kann ich eigene Immobilien inserieren?", a5: "Ja! Nutzen Sie den Befehl /advert. Kostenlos 1 Anzeige, Premium bis zu {PREMIUM_LISTINGS_LIMIT}.",
     ctaTitle: "Bereit Ihr Traumhaus zu finden?", ctaDesc: "Tausende Nutzer haben bereits ihre Traumimmobilie gefunden.", ctaBtn: "Kostenlos starten",
     copyright: "© 2026 EstateBot.", footerTagline: "Ihr KI-Immobilienassistent auf Telegram."
+, popLabel: "Beliebte Suchen", popTitle: "Finden Sie, was Sie suchen", popSub: "Durchsuchen Sie Immobilien in Top-Städten — Wohnungen, Häuser und Gewerbe.", popH1: "Wohnungen in Sofia, Bulgarien", popQ1: "Bulgarien · Sofia", popD1: "Durchstöbern Sie Apartments in Sofia — von Studios bis zu Familienhäusern. Intelligente Filter und tägliche Updates.", popH2: "Günstige Häuser in Bukarest, Rumänien", popQ2: "Rumänien · Bukarest", popD2: "Finden Sie erschwingliche Häuser in Bukarest. Vergleichen Sie Preise pro m² in jedem Viertel.", popH3: "Gewerbeimmobilien in Belgrad, Serbien", popQ3: "Serbien · Belgrad", popD3: "Büros, Geschäfte und gemischt genutzte Flächen in Belgrad. EstateBot informiert Sie sofort über neue Angebote.",
   },
   fr: {
     heroBadge: "Propulsé par IA / Gratuit", heroTitle: "Trouvez <em>Votre Maison</em> <br>de Rêve", heroSub: "Bot Telegram IA pour la recherche immobilière. Filtres intelligents — prix, surface, ville — et recevez des annonces fraîches quotidiennement.", heroCta: "Ouvrir dans Telegram", heroCta2: "Fonctionnalités",
     badgeFree: "Gratuit", badgeDaily: "Quotidien", badgeCountries: "3 Pays",
-    navFeatures: "Fonctionnalités", navHow: "Comment ça marche", navPricing: "Tarifs", navCountries: "Pays", navFaq: "FAQ", navCta: "Ouvrir",
+    navFeatures: "Fonctionnalités", navHow: "Comment ça marche", navPricing: "Tarifs", navCountries: "Pays", navFaq: "FAQ", navFind: "Recherches populaires", navFindBG: "Bulgarie", navFindRO: "Roumanie", navFindRS: "Serbie", navCta: "Ouvrir",
     stat1Num: "10K+", stat1Label: "Annonces", stat2Num: "3", stat2Label: "Pays", stat3Num: "24/7", stat3Label: "Bot en ligne", stat4Num: "€0", stat4Label: "Démarrer",
     featuresLabel: "Fonctionnalités", featuresTitle: "Pourquoi EstateBot?", featuresSub: "Tout pour trouver le bien idéal — dans Telegram.",
     f1Title: "Filtres Intelligents", f1Desc: "Filtrez par prix, prix/m², surface et ville.",
@@ -128,11 +131,12 @@ var i18n = {
     q5: "Puis-je publier mon bien?", a5: "Absolument! Utilisez /advert. Gratuit: 1 annonce, Premium: jusqu'à 3.",
     ctaTitle: "Prêt à trouver votre maison de rêve?", ctaDesc: "Rejoignez des milliers d'utilisateurs.", ctaBtn: "Commencer gratuitement",
     copyright: "© 2026 EstateBot.", footerTagline: "Votre assistant immobilier IA sur Telegram."
+, popLabel: "Recherches populaires", popTitle: "Trouvez ce que vous cherchez", popSub: "Parcourez les annonces dans les grandes villes — appartements, maisons et commerciaux.", popH1: "Appartements à vendre à Sofia, Bulgarie", popQ1: "Bulgarie · Sofia", popD1: "Parcourez une large sélection d’appartements à Sofia. Filtres intelligents et annonces fraîches quotidiennement.", popH2: "Maisons pas chères à Bucarest, Roumanie", popQ2: "Roumanie · Bucarest", popD2: "Découvrez des maisons abordables à Bucarest. Comparez les prix au m² dans chaque quartier.", popH3: "Immobilier commercial à Belgrade, Serbie", popQ3: "Serbie · Belgrade", popD3: "Bureaux, commerces et espaces polyvalents à Belgrade. EstateBot vous alerte des nouvelles offres.",
   },
   es: {
     heroBadge: "Impulsado por IA / Gratis", heroTitle: "Encuentra tu <em>Hogar Ideal</em> <br>Sin Complicaciones", heroSub: "Bot de Telegram con IA para búsqueda de inmuebles. Filtros inteligentes — precio, área, ciudad — y recibe listados frescos a diario.", heroCta: "Abrir en Telegram", heroCta2: "Características",
     badgeFree: "Gratis", badgeDaily: "A diario", badgeCountries: "3 Países",
-    navFeatures: "Características", navHow: "Cómo funciona", navPricing: "Precios", navCountries: "Países", navFaq: "FAQ", navCta: "Abrir",
+    navFeatures: "Características", navHow: "Cómo funciona", navPricing: "Precios", navCountries: "Países", navFaq: "FAQ", navFind: "Búsquedas populares", navFindBG: "Bulgaria", navFindRO: "Rumanía", navFindRS: "Serbia", navCta: "Abrir",
     stat1Num: "10K+", stat1Label: "Listados", stat2Num: "3", stat2Label: "Países", stat3Num: "24/7", stat3Label: "Bot activo", stat4Num: "€0", stat4Label: "Empezar",
     featuresLabel: "Características", featuresTitle: "¿Por qué EstateBot?", featuresSub: "Todo para encontrar la propiedad perfecta — en Telegram.",
     f1Title: "Filtros Inteligentes", f1Desc: "Filtra por precio, precio/m², superficie y ciudad.",
@@ -160,11 +164,12 @@ var i18n = {
     q5: "¿Puedo publicar mi propiedad?", a5: "¡Sí! Usa /advert. Gratis: 1 anuncio, Premium: hasta {PREMIUM_LISTINGS_LIMIT}.",
     ctaTitle: "¿Listo para encontrar tu hogar?", ctaDesc: "ÚTe a miles de usuarios!", ctaBtn: "Empezar gratis",
     copyright: "© 2026 EstateBot.", footerTagline: "Tu asistente inmobiliario IA en Telegram."
+, popLabel: "Búsquedas populares", popTitle: "Encuentra lo que buscas", popSub: "Explora listados en las principales ciudades — apartamentos, casas y comerciales.", popH1: "Apartamentos en Venta en Sofía, Bulgaria", popQ1: "Bulgaria · Sofía", popD1: "Explore apartamentos en Sofía, desde estudios hasta casas familiares. Filtros inteligentes y listados frescos a diario.", popH2: "Casas Baratas en Venta en Bucarest, Rumanía", popQ2: "Rumanía · Bucarest", popD2: "Descubra casas asequibles en Bucarest. Filtros por precio y área para encontrar las mejores ofertas.", popH3: "Inmuebles Comerciales en Belgrado, Serbia", popQ3: "Serbia · Belgrado", popD3: "Oficinas, tiendas y espacios en Belgrado. EstateBot le avisa cuando aparecen nuevas propiedades.",
   },
   bg: {
     heroBadge: "ИЗ подкрепен / Безплатно", heroTitle: "Намерете <em>Дома на Мечтите</em> <br>Без Усилия", heroSub: "Telegram бот с ИЗ за търсене на недвижими имоти. Интелигентни филтри.", heroCta: "Отвори в Telegram", heroCta2: "Функции",
     badgeFree: "Безплатно", badgeDaily: "Ежедневно", badgeCountries: "3 държави",
-    navFeatures: "Функции", navHow: "Как работи", navPricing: "Цени", navCountries: "Държави", navFaq: "FAQ", navCta: "Отвори",
+    navFeatures: "Функции", navHow: "Как работи", navPricing: "Цени", navCountries: "Държави", navFaq: "FAQ", navFind: "Популярни търсения", navFindBG: "България", navFindRO: "Румъния", navFindRS: "Сърбия", navCta: "Отвори",
     stat1Num: "10K+", stat1Label: "Обяви", stat2Num: "3", stat2Label: "Държави", stat3Num: "24/7", stat3Label: "Бот онлайн", stat4Num: "€0", stat4Label: "Старт",
     featuresLabel: "Функции", featuresTitle: "Защо EstateBot?", featuresSub: "Всичко за намиране на имот в Telegram.",
     f1Title: "Умни Филтри", f1Desc: "Филтрирайте по цена, цена/м², площ и град.",
@@ -192,11 +197,12 @@ var i18n = {
     q5: "Мога ли да публикувам своя имот?", a5: "Да! Използвайте /advert. Безплатно 1, Premium до 3.",
     ctaTitle: "Готови ли сте да намерите дома си?", ctaDesc: "Присъединете се към хиляди потребители.", ctaBtn: "Започнете безплатно",
     copyright: "© 2026 EstateBot.", footerTagline: "Вашият AI асистент за недвижими имоти в Telegram."
+, popLabel: "Популярни търсения", popTitle: "Намерете това, което търсите", popSub: "Разгледайте обяви в най-големите градове — апартаменти, къщи и търговски имоти.", popH1: "Апартаменти в София, България", popQ1: "България · София", popD1: "Разгледайте апартаменти в София — от студиа до семейни домове. Интелигентни филтри и ежедневни обновления.", popH2: "Евтини къщи в Букурещ, Румъния", popQ2: "Румъния · Букурещ", popD2: "Намерете достъпни къщи в Букурещ. Сравнявайте цени на м² във всеки квартал.", popH3: "Търговски имоти в Белград, Сърбия", popQ3: "Сърбия · Белград", popD3: "Офиси, магазини и помещения в Белград. EstateBot ви изпраща новите оферти.",
   },
   hu: {
     heroBadge: "AI-alapú / Ingyenes", heroTitle: "Találja Meg <em>Álmait Otthonát</em> <br>Gond nélkül", heroSub: "AI-alapú Telegram bot ingatlankereskedelemhez. Intelligens szűrők és naponta frissülő listák.", heroCta: "Megnyitás Telegramban", heroCta2: "Funkciók",
     badgeFree: "Ingyenes", badgeDaily: "Naponta friss", badgeCountries: "3 ország",
-    navFeatures: "Funkciók", navHow: "Hogyan működik", navPricing: "Árak", navCountries: "Országok", navFaq: "GYIK", navCta: "Megnyitás",
+    navFeatures: "Funkciók", navHow: "Hogyan működik", navPricing: "Árak", navCountries: "Országok", navFaq: "GYIK", navFind: "Népszerű keresések", navFindBG: "Bulgária", navFindRO: "Románia", navFindRS: "Szerbia", navCta: "Megnyitás",
     stat1Num: "10K+", stat1Label: "Hirdetések", stat2Num: "3", stat2Label: "Országok", stat3Num: "24/7", stat3Label: "Bot", stat4Num: "€0", stat4Label: "Indítás",
     featuresLabel: "Funkciók", featuresTitle: "Miért EstateBot?", featuresSub: "Minden, ami kell a tökéletes ingatlanhoz — a Telegramban.",
     f1Title: "Intelligens szűrők", f1Desc: "Szűrés ár, ár/m², terület és város szerint.",
@@ -224,11 +230,12 @@ var i18n = {
     q5: "Felveszem a saját ingatlanom?", a5: "Igen! Használja az /advert parancsot. Ingyenes 1, Premium 3 hirdetésig.",
     ctaTitle: "Készen áll megtalálni otthonát?", ctaDesc: "Csatlakozzon ezrekhez!", ctaBtn: "Indítás ingyen",
     copyright: "© 2026 EstateBot.", footerTagline: "AI ingatlan asszisztens a Telegramban."
+, popLabel: "Népszerű keresések", popTitle: "Találd meg, amit keresel", popSub: "Böngéssz lakásokat a nagyobb városokban — lakások, házak és kereskedelmi ingatlanok.", popH1: "Lakások eladók Szófiában, Bulgária", popQ1: "Bulgária · Szófia", popD1: "Nézze meg a szófiai lakások széles választékát. Intelligens szűrők és napi frissítések.", popH2: "Olcsó házak Bukarestben, Románia", popQ2: "Románia · Bukarest", popD2: "Fedezzen fel megfizethető házakat Bukarestben. Ár és terület szerinti szűrés.", popH3: "Kereskedelmi ingatlanok Belgrádban, Szerbia", popQ3: "Szerbia · Belgrád", popD3: "Irodák, üzletek és vegyes célú terek Belgrádban. Értesítés új hirdetésekről.",
   },
   sr: {
     heroBadge: "AI погон / Бесплатно", heroTitle: "Пронађите <em>Кућу Својих Снова</em> <br>Без Муке", heroSub: "Telegram бот са ВИ за претрагу некретнина. Паметни филтери.", heroCta: "Отвори у Telegram-у", heroCta2: "Могућности",
     badgeFree: "Бесплатно", badgeDaily: "Свеже дневно", badgeCountries: "3 земље",
-    navFeatures: "Могућности", navHow: "Како ради", navPricing: "Цене", navCountries: "Земље", navFaq: "ЧПП", navCta: "Отвори",
+    navFeatures: "Могућности", navHow: "Како ради", navPricing: "Цене", navCountries: "Земље", navFaq: "ЧПП", navFind: "Популарне претраге", navFindBG: "Бугарска", navFindRO: "Румунија", navFindRS: "Србија", navCta: "Отвори",
     stat1Num: "10K+", stat1Label: "Огласи", stat2Num: "3", stat2Label: "Земље", stat3Num: "24/7", stat3Label: "Бот", stat4Num: "€0", stat4Label: "Почетак",
     featuresLabel: "Могућности", featuresTitle: "Зашто EstateBot?", featuresSub: "Све за проналажење савршеног дома у Telegram-у.",
     f1Title: "Паметни филтери", f1Desc: "Филтрирајте по цени, цени/м², површини и граду.",
@@ -256,5 +263,6 @@ var i18n = {
     q5: "Могу ли да објавим своју некретнину?", a5: "Да! Користите /advert. Бесплатно 1, Premium до 3.",
     ctaTitle: "Спремни да пронађете дом?", ctaDesc: "Придружите се хиљадама корисника.", ctaBtn: "Почни бесплатно",
     copyright: "© 2026 EstateBot.", footerTagline: "Ваш AI асистент за некретнине у Telegram-у."
+, popLabel: "Популарне претраге", popTitle: "Пронађите оно што тражите", popSub: "Прегледајте огласе у великим градовима — станови, куће и комерцијални простори.", popH1: "Станови у Софији, Бугарска", popQ1: "Бугарска · Софија", popD1: "Прегледајте станове у Софији — од студија до породичних кућа. Паметни филтри и дневна ажурирања.", popH2: "Јефтине куће у Букурешту, Румунија", popQ2: "Румунија · Букурешт", popD2: "Пронађите приступачне куће у Букурешту. Упоређујте цене по м² у сваком кварту.", popH3: "Комерцијалне некретнине у Београду, Србија", popQ3: "Србија · Београд", popD3: "Канцеларије, продавнице и простори у Београду. EstateBot вас обавештава о новим понудама.",
   }
 };

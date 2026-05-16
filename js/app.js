@@ -106,6 +106,27 @@
     });
   }
 
+  // Nav find dropdown
+  var navFindBtn = document.querySelector('.nav-dd-btn');
+  var navFindWrap = document.querySelector('.nav-dd-wrap');
+  var navFindOpen = false;
+  if (navFindBtn && navFindWrap) {
+    navFindBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      navFindOpen = !navFindOpen;
+      navFindWrap.classList.toggle('open', navFindOpen);
+    });
+    document.addEventListener('click', function(){
+      if (navFindOpen) { navFindOpen = false; navFindWrap.classList.remove('open'); }
+    });
+    navFindWrap.addEventListener('click', function(e){
+      if (e.target.closest('.nav-dd-item')) {
+        navFindOpen = false;
+        navFindWrap.classList.remove('open');
+      }
+    });
+  }
+
   // Mobile hamburger
   var hamburger = document.getElementById('hamburger');
   var navLinks = document.getElementById('navLinks');
