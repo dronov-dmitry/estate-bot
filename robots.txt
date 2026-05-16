@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://europe-estate-bot.github.io/sitemap.xml

@@ -3,9 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>EstateBot — AI Real Estate Search in Bulgaria, Romania & Serbia</title>
-  <meta name="description" content="Smart Telegram bot for real estate search across Bulgaria, Romania & Serbia. Set filters for price, area & city. Get fresh listings daily. Free to start." />
+  <title>EstateBot — Telegram Bot для поиска недвижимости в Болгарии, Румынии и Сербии</title>
+  <meta name="description" content="EstateBot — Telegram bot на ИИ для поиска квартир, домов и коммерческой недвижимости в Болгарии, Румынии и Сербии. Умные фильтры по цене, площади и городу. Бесплатно. Ежедневные свежие объявления." />
   <meta name="theme-color" content="#0a0e1a" />
+  <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://europe-estate-bot.github.io/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="EstateBot — Telegram Bot для поиска недвижимости в Болгарии, Румынии и Сербии" />
+  <meta property="og:description" content="AI-бот в Telegram для поиска квартир, домов и коммерческой недвижимости. Фильтры по цене, площади, городу. Ежедневные обновления. Бесплатный старт." />
+  <meta property="og:url" content="https://europe-estate-bot.github.io/" />
+  <meta property="og:site_name" content="EstateBot" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://europe-estate-bot.github.io/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EstateBot — Real Estate Telegram Bot for Bulgaria, Romania & Serbia" />
+  <meta name="twitter:description" content="AI-powered Telegram bot for finding apartments, houses & commercial property. Smart filters, daily fresh listings. Free to start." />
+
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -659,7 +677,18 @@
     ::selection { background: rgba(99,102,241,.3); color: #fff; }
   </style>
 
-  <!-- JSON-LD -->
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EstateBot",
+    "url": "https://europe-estate-bot.github.io/",
+    "description": "AI-powered Telegram bot for real estate search in Bulgaria, Romania and Serbia.",
+    "contactPoint": { "@type": "ContactPoint", "email": "hello@estatebot.com", "contactType": "customer support" }
+  }
+  </script>
+  <!-- JSON-LD: SoftwareApplication -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -667,9 +696,36 @@
     "name": "EstateBot",
     "applicationCategory": "RealEstateApplication",
     "operatingSystem": "Telegram",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "offers": [
+      { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "EUR", "description": "1 listing, basic filters, daily updates" },
+      { "@type": "Offer", "name": "Premium", "price": "3", "priceCurrency": "EUR", "description": "Up to 5 user listings, advanced filters, priority updates" }
+    ],
     "description": "AI-powered Telegram bot that searches real estate listings with customizable filters for price, price per m², area, and city across Bulgaria, Romania and Serbia.",
-    "publisher": { "@type": "Organization", "name": "EstateBot" }
+    "publisher": { "@type": "Organization", "name": "EstateBot", "url": "https://europe-estate-bot.github.io/" }
+  }
+  </script>
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How is this different from other real estate sites?", "acceptedAnswer": { "@type": "Answer", "text": "EstateBot lives inside Telegram — no app to download, no website to check. Set your filters once and get relevant listings pushed directly to you every day." } },
+      { "@type": "Question", "name": "Is it really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes! The free tier gives you access to all basic features: search filters, daily updates, and 1 active listing. You only need Premium when you want unlimited listings view and priority alerts." } },
+      { "@type": "Question", "name": "Which countries do you cover?", "acceptedAnswer": { "@type": "Answer", "text": "We currently cover Bulgaria, Romania, and Serbia — three of the most popular real estate markets in the Balkans." } },
+      { "@type": "Question", "name": "How often are listings updated?", "acceptedAnswer": { "@type": "Answer", "text": "Our parser runs daily, and new listings that match your filters are pushed to you automatically. Premium users get priority updates." } },
+      { "@type": "Question", "name": "Can I list my own property?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutely! Use the /advert command in the bot to create your own listing. Free users get 1 active listing, Premium users get up to 5." } }
+    ]
+  }
+  </script>
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://europe-estate-bot.github.io/" }
+    ]
   }
   </script>
 </head>
@@ -686,7 +742,7 @@
     <div class="nav-inner">
       <div class="nav-logo">
         <div class="nav-logo-icon">🏠</div>
-        <a href="#" class="nav-logo-text">EstateBot</a>
+        <a href="#" class="nav-logo-text" aria-label="EstateBot homepage">EstateBot</a>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
