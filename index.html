@@ -53,14 +53,10 @@
        ═══════════════════════════════════════════════════ */
     :root {
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --bg: #05080e;
-      --bg2: #0a0e1a;
-      --bg3: #0f1525;
-      --surface: rgba(255,255,255,.035);
-      --surface2: rgba(255,255,255,.06);
+      --bg: #05080e; --bg2: var(--bg, #0a0e1a); --bg3: #0f1525;
+      --surface: rgba(255,255,255,.035); --surface2: rgba(255,255,255,.06);
       --surface3: rgba(255,255,255,.09);
-      --border: rgba(255,255,255,.07);
-      --border2: rgba(255,255,255,.12);
+      --border: rgba(255,255,255,.07); --border2: rgba(255,255,255,.12);
       --border3: rgba(255,255,255,.18);
       --text: #f1f5f9;
       --text2: #94a3b8;
@@ -75,14 +71,30 @@
       --grad3: linear-gradient(135deg, #6366f1 0%, #8b5cf6 30%, #a78bfa 60%, #06b6d4 100%);
       --glass: rgba(99,102,241,.08);
       --glass-b: rgba(99,102,241,.2);
-      --r: 12px;
-      --r2: 20px;
-      --rf: 9999px;
+      --r: 12px; --r2: 20px; --rf: 9999px;
       --shadow: 0 8px 40px rgba(0,0,0,.5);
       --shadow2: 0 16px 64px rgba(0,0,0,.55);
       --glow: 0 0 40px rgba(99,102,241,.15);
       --radius-sm: 10px;
+      --text3-light: #94a3b8;  /* Contrast >= 3:1 for dark bg */
     }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc; --bg2: #f1f5f9; --bg3: #e2e8f0;
+        --surface: rgba(15,23,42,.03); --surface2: rgba(15,23,42,.06);
+        --surface3: rgba(15,23,42,.1);
+        --border: rgba(15,23,42,.07); --border2: rgba(15,23,42,.12);
+        --border3: rgba(15,23,42,.18);
+        --text: #0f172a; --text2: #475569;
+        --text3: #94a3b8;            /* Contrast >= 3:1 for light bg */
+        --glass: rgba(99,102,241,.06); --glass-b: rgba(99,102,241,.14);
+        --shadow: 0 8px 40px rgba(0,0,0,.08);
+        --shadow2: 0 16px 64px rgba(0,0,0,.1);
+        --glow: 0 0 40px rgba(99,102,241,.08);
+        --text3-light: #475569;      /* WCAG AA contrast ≥ 3:1 on light bg */
+      }
+    }
+    .contrast-fix { color: var(--text3-light); }
     @media (prefers-color-scheme: light) {
       :root {
         --bg: #f8fafc; --bg2: #f1f5f9; --bg3: #e2e8f0;
@@ -454,7 +466,12 @@
       background: var(--grad2); -webkit-background-clip: text; background-clip: text;
       color: transparent;
     }
-    .stat-label { font-size: .82rem; color: var(--text3); margin-top: 4px; font-weight: 500; }
+    .stat-label {
+      color: var(--text3-light);
+      font-size: .82rem;
+      margin-top: 4px;
+      font-weight: 500;
+    }
 
     /* ═══════════════════════════════════════════════════
        FEATURES
@@ -792,23 +809,26 @@
       <div class="nav-right">
         <a href="https://t.me/your_bot_username" data-bot-link class="nav-cta" target="_blank" rel="noopener noreferrer" data-i18n="navCta">Open Bot</a>
         <div class="lang-wrap">
-          <button class="lang-btn" id="langBtn" aria-label="Language">
+          <button class="lang-btn" id="langBtn" aria-label="Language" aria-expanded="false" aria-controls="langDropdown">
             🌐 <span id="currentLang">EN</span>
           </button>
-          <div class="lang-dd" id="langDropdown" role="listbox">
-            <button data-lang="en">🇬🇧 English</button>
-            <button data-lang="ru">🇷🇺 Русский</button>
-            <button data-lang="de">🇩🇪 Deutsch</button>
-            <button data-lang="fr">🇫🇷 Français</button>
-            <button data-lang="es">🇪🇸 Español</button>
-            <button data-lang="bg">🇧🇬 Български</button>
-            <button data-lang="hu">🇭🇺 Magyar</button>
-            <button data-lang="sr">🇷🇸 Српски</button>
+          <div class="lang-dd" id="langDropdown" role="listbox" aria-label="Select language">
+            <button role="option" data-lang="en" aria-selected="true">🇬🇧 English</button>
+            <button role="option" data-lang="ru" aria-selected="false">🇷🇺 Русский</button>
+            <button role="option" data-lang="de" aria-selected="false">🇩🇪 Deutsch</button>
+            <button role="option" data-lang="fr" aria-selected="false">🇫🇷 Français</button>
+            <button role="option" data-lang="es" aria-selected="false">🇪🇸 Español</button>
+            <button role="option" data-lang="bg" aria-selected="false">🇧🇬 Български</button>
+            <button role="option" data-lang="hu" aria-selected="false">🇭🇺 Magyar</button>
+            <button role="option" data-lang="sr" aria-selected="false">🇷🇸 Српски</button>
           </div>
         </div>
       </div>
     </div>
   </nav>
+
+  <!-- ═══ MAIN ═══ -->
+  <main id="main">
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="hero">
@@ -1133,6 +1153,8 @@
       </div>
     </div>
   </section>
+
+  </main><!-- /#main -->
 
   <!-- ═══ FOOTER ═══ -->
   <footer>
