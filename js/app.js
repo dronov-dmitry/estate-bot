@@ -145,7 +145,7 @@
   // Service Worker
   function registerSW() {
     if (!('serviceWorker' in navigator)) return;
-    navigator.serviceWorker.register('sw.js').catch(function(){});
+    navigator.serviceWorker.register('js/sw.js').catch(function(){});
   }
 
   // Apply settings from settings.js
